@@ -1,0 +1,25 @@
+{
+  "name": "unidorm-chrome-extension",
+  "version": "1.0.0",
+  "description": "UNIDorm PC 브라우저용 인천대 포털/ERP 로컬 연동 Chrome Extension (Manifest V3)",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsup && node scripts/copy-assets.mjs",
+    "build:store": "tsup --no-sourcemap && node scripts/copy-assets.mjs --prod",
+    "package:store": "npm run build:store && node scripts/package-store.mjs",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@inu-appcenter/unidorm-portal-helper": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.295",
+    "@types/node": "^22.13.13",
+    "tsup": "^8.3.0",
+    "typescript": "^5.7.2",
+    "vitest": "^3.0.0"
+  }
+}

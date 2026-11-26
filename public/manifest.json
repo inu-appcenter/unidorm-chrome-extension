@@ -1,0 +1,53 @@
+{
+  "manifest_version": 3,
+  "name": "UNIDorm 포털 연동 도우미",
+  "version": "1.0.0",
+  "description": "PC 브라우저의 UNIDorm 웹에서 인천대학교 포털/ERP 학적·기숙사 정보를 로컬 브라우저 세션으로 조회할 수 있게 연결합니다.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": [
+    "tabs",
+    "scripting",
+    "storage",
+    "cookies",
+    "webNavigation"
+  ],
+  "host_permissions": [
+    "http://portal.inu.ac.kr/*",
+    "https://portal.inu.ac.kr/*",
+    "http://erp.inu.ac.kr/*",
+    "https://erp.inu.ac.kr/*",
+    "https://lms.inu.ac.kr/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "UNIDorm 포털 연동 도우미",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://unidorm.inuappcenter.kr/*",
+        "https://unidorm-dev.inuappcenter.kr/*",
+        "https://*.inuappcenter.kr/*",
+        "https://unidorm-test.pages.dev/*",
+        "https://*.unidorm-test.pages.dev/*",
+        "http://localhost:5173/*",
+        "http://127.0.0.1:5173/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ]
+}

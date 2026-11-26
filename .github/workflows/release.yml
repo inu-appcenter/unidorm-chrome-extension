@@ -1,0 +1,46 @@
+name: Release UNIDorm Chrome Extension
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: read
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          registry-url: "https://npm.pkg.github.com"
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Typecheck, Package, and Test
+        run: npm run typecheck && npm run package:store && npm run test
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: release/unidorm-chrome-extension-v*.zip
+          generate_release_notes: true
+          body: |
+            ## 설치 방법
+            1. 아래 `unidorm-chrome-extension-v*.zip` 파일을 내려받아 압축을 풉니다.
+            2. Chrome 주소창에 `chrome://extensions`를 열고 우측 상단 **개발자 모드**를 켭니다.
+            3. **압축해제된 확장 프로그램을 로드합니다**를 눌러 압축을 푼 폴더를 선택합니다.
+            4. UNIDorm 웹 페이지를 새로고침하면 바로 연동됩니다.
+
+            > 업데이트 시에는 새 ZIP을 기존 폴더에 덮어쓴 뒤 `chrome://extensions`에서 새로고침(↻)만 누르시면 됩니다.
